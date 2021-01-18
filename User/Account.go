@@ -38,7 +38,7 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 // InsertAccount inserts Account into db
 func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
+		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", "account"),
 		account.IdNumber,
 		account.Email,
 		account.DeviceId,
