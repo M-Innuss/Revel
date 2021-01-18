@@ -26,7 +26,7 @@ type Account struct {
 // CreateAccountTable uses db to create a new table for Account, and returns the result
 func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s varchar(255), %s varchar(255), %s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s int, %s varchar(255), %s int)",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
