@@ -7,7 +7,7 @@ import (
 
 const (
 	// AccountTableName is the name of the table for the Account model
-	AccountTableName = "account11"
+	AccountTableName = "account111"
 	// AccountIdNumberCol is the column name of the id
 	AccountIdNumberCol = "IdNumber"
 	// AccountEmailCol is the column name of the email
