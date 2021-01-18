@@ -7,7 +7,7 @@ import (
 
 const (
 	// AccountTableName is the name of the table for the Account model
-	AccountTableName = "account11"
+	AccountTableName = "account"
 	// AccountIdNumberCol is the column name of the id
 	AccountIdNumberCol = "IdNumber"
 	// AccountEmailCol is the column name of the email
@@ -38,8 +38,7 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 // InsertAccount inserts Account into db
 func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 	return db.Exec(
-		// fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
-		AccountTableName,
+		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
 		account.IdNumber,
 		account.Email,
 		account.DeviceId,
