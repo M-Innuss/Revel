@@ -9,9 +9,9 @@ const (
 	// AccountTableName is the name of the table for the Account model
 	AccountTableName = "Account"
 	// AccountIdNumberCol is the column name of the model's first name
-	AccountIdNumberCol = "first_name"
+	AccountIdNumberCol = "IdNumber"
 	// AccountEmailCol is the column name of the model's last name
-	AccountEmailCol = "last_name"
+	AccountEmailCol = "Email"
 	// AccountDeviceIdCol is the column name of the model's DeviceId
 	AccountDeviceIdCol = "DeviceId"
 )
