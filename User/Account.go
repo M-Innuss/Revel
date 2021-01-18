@@ -46,7 +46,7 @@ func InsertAccount(db *sql.DB, Account Account) (sql.Result, error) {
 }
 
 // SelectAccount selects a Account with the given first & last names and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
-func SelectAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, result *Account) error {
+func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
 			"SELECT * FROM %s WHERE %s=? AND %s=? AND %s=?",
@@ -71,7 +71,7 @@ func SelectAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, result *Ac
 }
 
 // UpdateAccount updates the Account with the given first & last names and DeviceId with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
-func UpdateAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, newAccount Account) error {
+func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAccount Account) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			"UPDATE %s SET %s=?,%s=?,%s=? WHERE %s=? AND %s=? AND %s=?",
@@ -94,7 +94,7 @@ func UpdateAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, newAccount
 }
 
 // DeleteAccount deletes the Account with the given first & last names and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
-func DeleteAccount(db *sql.DB, IdNumber, Email string, DeviceId uint) error {
+func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			"DELETE FROM %s WHERE %s=? AND %s=? AND %s=?",
