@@ -7,7 +7,7 @@ import (
 
 const (
 	// AccountTableName is the name of the table for the Account model
-	AccountTableName = "account111"
+	AccountTableName = "account11"
 	// AccountIdNumberCol is the column name of the id
 	AccountIdNumberCol = "IdNumber"
 	// AccountEmailCol is the column name of the email
@@ -26,7 +26,7 @@ type Account struct {
 // CreateAccountTable uses db to create a new table for Account, and returns the result
 func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s varchar(255) (%s int, %s varchar(255), %s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s int, %s varchar(255), %s int)",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
@@ -38,7 +38,8 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 // InsertAccount inserts Account into db
 func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
+		// fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
+		AccountTableName,
 		account.IdNumber,
 		account.Email,
 		account.DeviceId,
