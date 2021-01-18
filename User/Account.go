@@ -8,19 +8,19 @@ import (
 const (
 	// AccountTableName is the name of the table for the Account model
 	AccountTableName = "Account"
-	// AccountFirstNameCol is the column name of the model's first name
-	AccountFirstNameCol = "first_name"
-	// AccountLastNameCol is the column name of the model's last name
-	AccountLastNameCol = "last_name"
-	// AccountAgeCol is the column name of the model's age
-	AccountAgeCol = "age"
+	// AccountIdNumberCol is the column name of the model's first name
+	AccountIdNumberCol = "first_name"
+	// AccountEmailCol is the column name of the model's last name
+	AccountEmailCol = "last_name"
+	// AccountDeviceIdCol is the column name of the model's DeviceId
+	AccountDeviceIdCol = "DeviceId"
 )
 
 // Account is the database model for a Account
 type Account struct {
-	FirstName string
-	LastName  string
-	Age       uint
+	IdNumber uint
+	Email    string
+	DeviceId uint
 }
 
 // CreateAccountTable uses db to create a new table for Account models, and returns the result
@@ -28,9 +28,9 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
 		fmt.Sprintf("CREATE TABLE %s (%s varchar(255), %s varchar(255), %s int)",
 			AccountTableName,
-			AccountFirstNameCol,
-			AccountLastNameCol,
-			AccountAgeCol,
+			AccountIdNumberCol,
+			AccountEmailCol,
+			AccountDeviceIdCol,
 		),
 	)
 }
@@ -39,73 +39,73 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 func InsertAccount(db *sql.DB, Account Account) (sql.Result, error) {
 	return db.Exec(
 		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
-		Account.FirstName,
-		Account.LastName,
-		Account.Age,
+		Account.IdNumber,
+		Account.Email,
+		Account.DeviceId,
 	)
 }
 
-// SelectAccount selects a Account with the given first & last names and age. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
-func SelectAccount(db *sql.DB, firstName, lastName string, age uint, result *Account) error {
+// SelectAccount selects a Account with the given first & last names and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
+func SelectAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
 			"SELECT * FROM %s WHERE %s=? AND %s=? AND %s=?",
 			AccountTableName,
-			AccountFirstNameCol,
-			AccountLastNameCol,
-			AccountAgeCol,
+			AccountIdNumberCol,
+			AccountEmailCol,
+			AccountDeviceIdCol,
 		),
-		firstName,
-		lastName,
-		age,
+		IdNumber,
+		Email,
+		DeviceId,
 	)
-	var retFirstName, retLastName string
-	var retAge uint
-	if err := row.Scan(&retFirstName, &retLastName, &retAge); err != nil {
+	var retEmail string
+	var retIdNumber, retDeviceId uint
+	if err := row.Scan(&retIdNumber, &retEmail, &retDeviceId); err != nil {
 		return err
 	}
-	result.FirstName = retFirstName
-	result.LastName = retLastName
-	result.Age = retAge
+	result.IdNumber = retIdNumber
+	result.Email = retEmail
+	result.DeviceId = retDeviceId
 	return nil
 }
 
-// UpdateAccount updates the Account with the given first & last names and age with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
-func UpdateAccount(db *sql.DB, firstName, lastName string, age uint, newAccount Account) error {
+// UpdateAccount updates the Account with the given first & last names and DeviceId with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
+func UpdateAccount(db *sql.DB, IdNumber, Email string, DeviceId uint, newAccount Account) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			"UPDATE %s SET %s=?,%s=?,%s=? WHERE %s=? AND %s=? AND %s=?",
 			AccountTableName,
-			AccountFirstNameCol,
-			AccountLastNameCol,
-			AccountAgeCol,
-			AccountFirstNameCol,
-			AccountLastNameCol,
-			AccountAgeCol,
+			AccountIdNumberCol,
+			AccountEmailCol,
+			AccountDeviceIdCol,
+			AccountIdNumberCol,
+			AccountEmailCol,
+			AccountDeviceIdCol,
 		),
-		newAccount.FirstName,
-		newAccount.LastName,
-		newAccount.Age,
-		firstName,
-		lastName,
-		age,
+		newAccount.IdNumber,
+		newAccount.Email,
+		newAccount.DeviceId,
+		IdNumber,
+		Email,
+		DeviceId,
 	)
 	return err
 }
 
-// DeleteAccount deletes the Account with the given first & last names and age. Returns a non-nil error if the delete failed, and nil if the delete succeeded
-func DeleteAccount(db *sql.DB, firstName, lastName string, age uint) error {
+// DeleteAccount deletes the Account with the given first & last names and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
+func DeleteAccount(db *sql.DB, IdNumber, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			"DELETE FROM %s WHERE %s=? AND %s=? AND %s=?",
 			AccountTableName,
-			AccountFirstNameCol,
-			AccountLastNameCol,
-			AccountAgeCol,
+			AccountIdNumberCol,
+			AccountEmailCol,
+			AccountDeviceIdCol,
 		),
-		firstName,
-		lastName,
-		age,
+		IdNumber,
+		Email,
+		DeviceId,
 	)
 	return err
 }
