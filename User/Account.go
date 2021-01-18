@@ -7,12 +7,12 @@ import (
 
 const (
 	// AccountTableName is the name of the table for the Account model
-	AccountTableName = "Account"
-	// AccountIdNumberCol is the column name of the model's first name
+	AccountTableName = "account"
+	// AccountIdNumberCol is the column name of the id
 	AccountIdNumberCol = "IdNumber"
-	// AccountEmailCol is the column name of the model's last name
+	// AccountEmailCol is the column name of the email
 	AccountEmailCol = "Email"
-	// AccountDeviceIdCol is the column name of the model's DeviceId
+	// AccountDeviceIdCol is the column name of the DeviceId
 	AccountDeviceIdCol = "DeviceId"
 )
 
@@ -23,7 +23,7 @@ type Account struct {
 	DeviceId uint
 }
 
-// CreateAccountTable uses db to create a new table for Account models, and returns the result
+// CreateAccountTable uses db to create a new table for Account, and returns the result
 func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
 		fmt.Sprintf("CREATE TABLE %s (%s varchar(255), %s varchar(255), %s int)",
@@ -36,16 +36,16 @@ func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 }
 
 // InsertAccount inserts Account into db
-func InsertAccount(db *sql.DB, Account Account) (sql.Result, error) {
+func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 	return db.Exec(
 		fmt.Sprintf("INSERT INTO %s VALUES(?, ?, ?)", AccountTableName),
-		Account.IdNumber,
-		Account.Email,
-		Account.DeviceId,
+		account.IdNumber,
+		account.Email,
+		account.DeviceId,
 	)
 }
 
-// SelectAccount selects a Account with the given first & last names and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
+// SelectAccount selects a Account with the given id and email and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
 func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
@@ -70,7 +70,7 @@ func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, resul
 	return nil
 }
 
-// UpdateAccount updates the Account with the given first & last names and DeviceId with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
+// UpdateAccount updates the Account with the id, email and DeviceId with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
 func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAccount Account) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
@@ -93,7 +93,7 @@ func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAc
 	return err
 }
 
-// DeleteAccount deletes the Account with the given first & last names and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
+// DeleteAccount deletes the Account with the given id, email and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
 func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
