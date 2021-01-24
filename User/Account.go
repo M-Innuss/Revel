@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// Account Table
+
 const (
 	// AccountTableName is the name of the table for the Account model
 	AccountTableName = "account"
@@ -112,4 +114,48 @@ func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error
 		DeviceId,
 	)
 	return err
+}
+
+// DeviceId Table
+
+const (
+	// AccountTableName is the name of the table for the Account model
+	DeviceIdTableName = "DeviceId"
+	// AccountIdNumberCol is the column name of the id
+	DeviceIdCol = "DeviceId"
+)
+
+type DeviceId struct {
+	DeviceId uint
+}
+
+func CreateDeviceIdTable(db *sql.DB) (sql.Result, error) {
+	return db.Exec(
+		fmt.Sprintf("CREATE TABLE %s (%s uint)",
+			DeviceIdTableName,
+			DeviceIdCol,
+		),
+	)
+}
+
+// Email Table
+
+const (
+	// AccountTableName is the name of the table for the Account model
+	EmailTableName = "Email"
+	// AccountIdNumberCol is the column name of the id
+	EmailCol = "Email"
+)
+
+type Email struct {
+	Email string
+}
+
+func CreateEmailTable(db *sql.DB) (sql.Result, error) {
+	return db.Exec(
+		fmt.Sprintf("CREATE TABLE %s (%s uint)",
+			EmailTableName,
+			EmailCol,
+		),
+	)
 }
