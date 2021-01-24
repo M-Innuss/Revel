@@ -76,7 +76,7 @@ func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, resul
 func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAccount Account) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
-			"UPDATE %s SET %s=$1,%s=$2,%s=$3 WHERE %s=$1 AND %s=$2 AND %s=$3",
+			"UPDATE %s SET %s,%s,%s WHERE %s AND %s AND %s",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
@@ -99,7 +99,7 @@ func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAc
 func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
-			"DELETE FROM %s WHERE %s=$1 AND %s=$2 AND %s=$3",
+			"DELETE FROM %s WHERE %s AND %s AND %s",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
