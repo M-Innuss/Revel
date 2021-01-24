@@ -16,6 +16,8 @@ const (
 	AccountDeviceIdCol = "DeviceId"
 )
 
+///Users/martinsinnuss/go/pkg/mod/github.com/arschles/go-in-5-minutes@v0.0.0-20200709150023-eb8196a64257/episode22/models/models.go
+
 // Account is the database model for a Account
 type Account struct {
 	IdNumber uint
@@ -97,7 +99,7 @@ func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAc
 func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
-			"DELETE FROM %s WHERE %s=? AND %s=? AND %s=?",
+			"DELETE FROM %s=$1 WHERE %s=$2 AND %s=$3 AND %s=$4",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
