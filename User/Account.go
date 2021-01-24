@@ -51,7 +51,7 @@ func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
-			"SELECT * FROM AccountTableName = $1 WHERE AccountIdNumberCol = $2  AND AccountEmailCol = $3 AND AccountDeviceIdCol = $4 ",
+			"SELECT * FROM %s WHERE $1  AND $2 AND  $3 ",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
@@ -99,7 +99,8 @@ func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAc
 func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
-			"DELETE FROM $1 WHERE $2 AND $3 AND $4",
+			//"DELETE FROM $1 WHERE $2 AND $3 AND $4",
+			"DELETE FROM %s WHERE (%s varchar(255), %s varchar(255),  %s varchar(255))",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
