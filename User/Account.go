@@ -100,7 +100,7 @@ func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error
 	_, err := db.Exec(
 		fmt.Sprintf(
 			//"DELETE FROM $1 WHERE $2 AND $3 AND $4",
-			"DELETE FROM %s WHERE (%s varchar(255), %s varchar(255),  %s varchar(255))",
+			"DELETE FROM %s WHERE %s=$1 AND %s=$2 AND %s=$3",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
