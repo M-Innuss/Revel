@@ -51,7 +51,7 @@ func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
-			"SELECT * FROM %s WHERE %s=$1 AND %s=$2 AND %s=$3",
+			"SELECT * FROM %s WHERE %s AND %s AND %s",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
