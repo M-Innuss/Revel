@@ -131,7 +131,7 @@ type DeviceId struct {
 
 func CreateDeviceIdTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s uint)",
+		fmt.Sprintf("CREATE TABLE %s (%s int)",
 			DeviceIdTableName,
 			DeviceIdCol,
 		),
@@ -153,7 +153,7 @@ type Email struct {
 
 func CreateEmailTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s uint)",
+		fmt.Sprintf("CREATE TABLE %s (%s int)",
 			EmailTableName,
 			EmailCol,
 		),
