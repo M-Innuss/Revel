@@ -24,13 +24,13 @@ const (
 type Account struct {
 	IdNumber uint
 	Email    string
-	DeviceId uint
+	DeviceId string
 }
 
 // CreateAccountTable uses db to create a new table for Account, and returns the result
 func CreateAccountTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s int, %s varchar(255), %s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s int, %s varchar(255), %s varchar(255))",
 			AccountTableName,
 			AccountIdNumberCol,
 			AccountEmailCol,
@@ -50,7 +50,7 @@ func InsertAccount(db *sql.DB, account Account) (sql.Result, error) {
 }
 
 // SelectAccount selects a Account with the given id and email and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
-func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, result *Account) error {
+func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId string, result *Account) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
 			"SELECT * FROM %s WHERE %s=$1 AND %s=$2 AND %s=$3 ",
@@ -63,8 +63,8 @@ func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, resul
 		Email,
 		DeviceId,
 	)
-	var retEmail string
-	var retIdNumber, retDeviceId uint
+	var retEmail, retDeviceId string
+	var retIdNumber uint
 	if err := row.Scan(&retIdNumber, &retEmail, &retDeviceId); err != nil {
 		return err
 	}
@@ -75,7 +75,7 @@ func SelectAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, resul
 }
 
 // UpdateAccount updates the Account with the id, email and DeviceId with newAccount. Returns a non-nil error if the update failed, and nil if the update succeeded
-func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAccount Account) error {
+func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId string, newAccount Account) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			//"UPDATE %s SET %s,%s,%s WHERE %s AND %s AND %s",
@@ -99,7 +99,7 @@ func UpdateAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint, newAc
 }
 
 // DeleteAccount deletes the Account with the given id, email and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
-func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId uint) error {
+func DeleteAccount(db *sql.DB, IdNumber uint, Email string, DeviceId string) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			//"DELETE FROM $1 WHERE $2 AND $3 AND $4",
@@ -126,12 +126,12 @@ const (
 )
 
 type DeviceId struct {
-	DeviceId uint
+	DeviceId string
 }
 
 func CreateDeviceIdTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s varchar(255))",
 			DeviceIdTableName,
 			DeviceIdCol,
 		),
@@ -153,7 +153,7 @@ type Email struct {
 
 func CreateEmailTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s varchar(255))",
 			EmailTableName,
 			EmailCol,
 		),
