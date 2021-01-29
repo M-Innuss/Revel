@@ -1,4 +1,4 @@
-package controllers
+package Devices
 
 import (
 	"context"
