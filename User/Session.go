@@ -19,14 +19,14 @@ const (
 
 // Session is the database model for a Session
 type Session struct {
-	SessionId uint
+	SessionId string
 	UserId    uint
 }
 
 // CreateSessionTable uses db to create a new table for Session, and returns the result
 func CreateSessionTable(db *sql.DB) (sql.Result, error) {
 	return db.Exec(
-		fmt.Sprintf("CREATE TABLE %s (%s int, %s int)",
+		fmt.Sprintf("CREATE TABLE %s (%s varchar(255), %s int)",
 			TableName,
 			SessionIdCol,
 			UserIdCol,
@@ -44,7 +44,7 @@ func InsertSession(db *sql.DB, session Session) (sql.Result, error) {
 }
 
 // SelectSession selects a Session with the given id and email and DeviceId. On success, writes the result into result and on failure, returns a non-nil error and makes no modifications to result
-func SelectSession(db *sql.DB, SessionId uint, UserId uint, result *Session) error {
+func SelectSession(db *sql.DB, SessionId string, UserId uint, result *Session) error {
 	row := db.QueryRow(
 		fmt.Sprintf(
 			"SELECT * FROM %s WHERE %s=$1 AND %s=$2",
@@ -56,7 +56,8 @@ func SelectSession(db *sql.DB, SessionId uint, UserId uint, result *Session) err
 		UserId,
 	)
 
-	var retSessionId, retUserId uint
+	var retSessionId string
+	var retUserId uint
 	if err := row.Scan(&retSessionId, &retUserId); err != nil {
 		return err
 	}
@@ -66,7 +67,7 @@ func SelectSession(db *sql.DB, SessionId uint, UserId uint, result *Session) err
 }
 
 // UpdateSession updates the Session with the id, email and DeviceId with newSession. Returns a non-nil error if the update failed, and nil if the update succeeded
-func UpdateSession(db *sql.DB, SessionId uint, UserId uint, newSession Session) error {
+func UpdateSession(db *sql.DB, SessionId string, UserId uint, newSession Session) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			//"UPDATE %s SET %s,%s,%s WHERE %s AND %s AND %s",
@@ -86,7 +87,7 @@ func UpdateSession(db *sql.DB, SessionId uint, UserId uint, newSession Session) 
 }
 
 // DeleteSession deletes the Session with the given id, email and DeviceId. Returns a non-nil error if the delete failed, and nil if the delete succeeded
-func DeleteSession(db *sql.DB, SessionId uint, UserId uint) error {
+func DeleteSession(db *sql.DB, SessionId string, UserId uint) error {
 	_, err := db.Exec(
 		fmt.Sprintf(
 			//"DELETE FROM $1 WHERE $2 AND $3 AND $4",
