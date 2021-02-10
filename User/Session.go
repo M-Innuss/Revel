@@ -101,3 +101,11 @@ func DeleteSession(db *sql.DB, SessionId string, UserId uint) error {
 	)
 	return err
 }
+
+func GetSession(db *sql.DB) error {
+	_, err := db.Exec(
+
+		"SELECT UserId FROM Session",
+	)
+	return err
+}
